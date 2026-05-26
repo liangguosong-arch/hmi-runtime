@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>字符串拼接测试</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .test-result {
+      margin: 10px 0;
+      padding: 10px;
+      border-left: 4px solid #ccc;
+      background: #f5f5f5;
+    }
+    .success {
+      border-left-color: #4caf50;
+      background: #e8f5e9;
+    }
+    .error {
+      border-left-color: #f44336;
+      background: #ffebee;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px;
+      cursor: pointer;
+    }
+    pre {
+      background: #333;
+      color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>脚本引擎 - 字符串拼接测试</h1>
+
+  <div>
+    <button onclick="runTest1()">测试1: 字符串 + 数字</button>
+    <button onclick="runTest2()">测试2: 数字 + 字符串</button>
+    <button onclick="runTest3()">测试3: 多个拼接</button>
+    <button onclick="runTest4()">测试4: console.log 输出</button>
+  </div>
+
+  <div id="results"></div>
+
+  <script type="module">
+    import { scriptEngine } from './src/services/script-engine.ts'
+
+    // Mock context
+    const mockContext = {
+      $project: {
+        id: 'test',
+        name: 'Test Project',
+        version: '1.0.0',
+        resolution: { width: 800, height: 600 },
+        getVariable: (name) => null,
+        setVariable: (name, value) => {},
+        getResource: (name) => null
+      },
+      $page: {
+        id: 'page1',
+        name: 'Test Page',
+        pageType: 'normal',
+        getProperty: (key) => null,
+        setProperty: (key, value) => {},
+        getComponent: (id) => null,
+        getComponents: () => []
+      },
+      $component: null,
+      $device: {
+        read: (addr) => null,
+        write: async (addr, value) => {},
+        readBatch: (addrs) => ({}),
+        writeBatch: async (writes) => {}
+      },
+      $http: {
+        get: async () => ({}),
+        post: async () => ({}),
+        put: async () => ({}),
+        delete: async () => ({})
+      },
+      $timer: {},
+      $navigation: {
+        openPage: () => {},
+        closePage: () => {},
+        back: () => {},
+        reload: () => {},
+        getParams: () => ({})
+      },
+      console: {
+        log: (...args) => console.log('[Script]', ...args),
+        warn: (...args) => console.warn('[Script]', ...args),
+        error: (...args) => console.error('[Script]', ...args),
+        info: (...args) => console.info('[Script]', ...args)
+      },
+      Math,
+      JSON,
+      Date,
+      parseInt,
+      parseFloat,
+      isNaN,
+      Boolean,
+      String,
+      Number,
+      Array,
+      Object
+    }
+
+    window.runTest1 = async () => {
+      const code = `
+let count = 5
+let message = 'clickCount: ' + count
+message
+`
+      const result = await scriptEngine.run(code, mockContext)
+      displayResult('测试1: 字符串 + 数字', code, result)
+    }
+
+    window.runTest2 = async () => {
+      const code = `
+let count = 10
+let message = count + ' items'
+message
+`
+      const result = await scriptEngine.run(code, mockContext)
+      displayResult('测试2: 数字 + 字符串', code, result)
+    }
+
+    window.runTest3 = async () => {
+      const code = `
+let name = 'Alice'
+let age = 25
+let message = 'Name: ' + name + ', Age: ' + age + ' years'
+message
+`
+      const result = await scriptEngine.run(code, mockContext)
+      displayResult('测试3: 多个拼接', code, result)
+    }
+
+    window.runTest4 = async () => {
+      const code = `
+let count = 42
+console.log('clickCount: ' + count)
+console.log('Total: ' + (10 + 20) + ' items')
+let x = 5
+let y = 10
+console.log('Sum: ' + (x + y) + ', Product: ' + (x * y))
+`
+      const result = await scriptEngine.run(code, mockContext)
+      displayResult('测试4: console.log 输出', code, result)
+    }
+
+    function displayResult(testName, code, result) {
+      const resultsDiv = document.getElementById('results')
+      const div = document.createElement('div')
+      div.className = `test-result ${result.success ? 'success' : 'error'}`
+
+      let html = `<h3>${testName}</h3>`
+      html += `<pre>${escapeHtml(code)}</pre>`
+
+      if (result.success) {
+        html += `<p><strong>✅ 成功</strong></p>`
+        html += `<p>返回值: <code>${JSON.stringify(result.returnValue)}</code></p>`
+        if (result.executionTime) {
+          html += `<p>执行时间: ${result.executionTime.toFixed(2)}ms</p>`
+        }
+      } else {
+        html += `<p><strong>❌ 失败</strong></p>`
+        html += `<p>错误: ${result.error}</p>`
+        if (result.errorLine) {
+          html += `<p>行号: ${result.errorLine}</p>`
+        }
+      }
+
+      div.innerHTML = html
+      resultsDiv.insertBefore(div, resultsDiv.firstChild)
+    }
+
+    function escapeHtml(text) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }
+      return text.replace(/[&<>"']/g, m => map[m])
+    }
+  </script>
+</body>
+</html>

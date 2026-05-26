@@ -1,0 +1,142 @@
+{
+  "id": "hmi1777551407339",
+  "name": "测试容器组件",
+  "version": "",
+  "resolution": {
+    "width": 1280,
+    "height": 800
+  },
+  "pages": [
+    {
+      "id": "page_1777551407339",
+      "name": "主画面",
+      "pageType": "home",
+      "components": [
+        {
+          "id": "TabView_69798",
+          "type": "TabView",
+          "name": "TabView_1",
+          "x": 160,
+          "y": 96,
+          "width": 880,
+          "height": 512,
+          "properties": {
+            "tabs": [
+              {
+                "id": "tab1",
+                "name": "标签 1"
+              },
+              {
+                "id": "tab2",
+                "name": "标签 2"
+              }
+            ],
+            "activeTab": "tab1",
+            "tabPosition": "top",
+            "tabAlignment": "start",
+            "tabBarColor": {
+              "useTheme": true,
+              "themeColorKey": "bgLight"
+            },
+            "activeTabColor": {
+              "useTheme": true,
+              "themeColorKey": "stateFault"
+            },
+            "tabFontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "tabFontSize": 28,
+            "borderRadius": 8
+          },
+          "zIndex": 0,
+          "visible": true,
+          "display": true,
+          "isContainer": true,
+          "resizable": true
+        },
+        {
+          "id": "Panel_96391",
+          "type": "Panel",
+          "name": "Panel_1",
+          "x": 144,
+          "y": 624,
+          "width": 896,
+          "height": 144,
+          "properties": {
+            "title": "",
+            "titleFontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "titleFontSize": 14,
+            "titleFontWeight": "bold",
+            "titleColor": {
+              "useTheme": true,
+              "themeColorKey": "textPrimary"
+            },
+            "titleAlign": "left",
+            "titleVerticalAlign": "top",
+            "background": {
+              "useTheme": true,
+              "themeColorKey": "white"
+            },
+            "borderColor": {
+              "useTheme": true,
+              "themeColorKey": "borderDark"
+            },
+            "borderWidth": 1,
+            "borderRadius": 4
+          },
+          "zIndex": 0,
+          "visible": true,
+          "display": true,
+          "isContainer": true,
+          "resizable": true
+        }
+      ],
+      "properties": {
+        "backgroundColor": {
+          "useTheme": true,
+          "themeColorKey": "white"
+        },
+        "backgroundRepeat": "no-repeat",
+        "backgroundSize": "cover",
+        "gridVisible": false,
+        "snapToGrid": true
+      },
+      "status": "CLEAN"
+    },
+    {
+      "id": "page-1778473289033-xzebmhav0",
+      "name": "页面 2",
+      "pageType": "normal",
+      "background": "#FFFFFF",
+      "components": [],
+      "properties": {
+        "backgroundColor": {
+          "useTheme": true,
+          "themeColorKey": "white"
+        },
+        "backgroundImage": "",
+        "backgroundRepeat": "no-repeat",
+        "backgroundSize": "cover",
+        "gridVisible": true,
+        "snapToGrid": true
+      },
+      "status": "CLEAN"
+    }
+  ],
+  "currentPageId": "page_1777551407339",
+  "updatedAt": 1779675298814,
+  "plcManufacturerName": "Siemens",
+  "plcSeriesName": "S7-1500",
+  "plcDeviceModel": "Siemens S7-1500",
+  "plcIpAddress": "127.0.0.1",
+  "plcPort": 8080,
+  "hmiManufacturerName": "Other",
+  "hmiDeviceModel": "other-hmi",
+  "customHmiModel": "SIMATIC HMI TP1200",
+  "hmiIpAddress": "localhost",
+  "hmiPort": 3000,
+  "themeId": "default-light",
+  "metadata": {
+    "author": "",
+    "description": ""
+  },
+  "status": "CLEAN"
+}

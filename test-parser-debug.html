@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>脚本解析测试</title>
+</head>
+<body>
+  <h1>脚本解析测试</h1>
+  <div id="output"></div>
+  
+  <script type="module">
+    // 由于无法直接导入 TypeScript，我们需要手动测试
+    
+    const output = document.getElementById('output')
+    
+    function addLog(msg) {
+      const div = document.createElement('div')
+      div.textContent = msg
+      output.appendChild(div)
+    }
+    
+    // 模拟 Tokenizer
+    function tokenize(code) {
+      const tokens = []
+      let pos = 0
+      
+      while (pos < code.length) {
+        const char = code[pos]
+        
+        if (/\s/.test(char)) {
+          pos++
+          continue
+        }
+        
+        if (char === '/' && code[pos + 1] === '/') {
+          while (pos < code.length && code[pos] !== '\n') pos++
+          continue
+        }
+        
+        if (/[a-zA-Z_$]/.test(char)) {
+          let id = ''
+          while (pos < code.length && /[a-zA-Z0-9_$]/.test(code[pos])) {
+            id += code[pos]
+            pos++
+          }
+          tokens.push({ type: 'Identifier', value: id })
+          continue
+        }
+        
+        if (char === "'" || char === '"') {
+          const quote = char
+          pos++
+          let str = ''
+          while (pos < code.length && code[pos] !== quote) {
+            str += code[pos]
+            pos++
+          }
+          pos++
+          tokens.push({ type: 'String', value: str })
+          continue
+        }
+        
+        if (/[0-9]/.test(char)) {
+          let num = ''
+          while (pos < code.length && /[0-9]/.test(code[pos])) {
+            num += code[pos]
+            pos++
+          }
+          tokens.push({ type: 'Number', value: parseInt(num) })
+          continue
+        }
+        
+        if (['.', '(', ')', '{', '}', '[', ']', ',', ';'].includes(char)) {
+          tokens.push({ type: 'Punctuator', value: char })
+          pos++
+          continue
+        }
+        
+        pos++
+      }
+      
+      tokens.push({ type: 'EOF', value: null })
+      return tokens
+    }
+    
+    addLog('=== 测试 Tokenizer ===')
+    addLog('')
+    
+    const testCode = `$project.setVariable('clickCount', 0)`
+    addLog(`代码: ${testCode}`)
+    addLog('')
+    
+    const tokens = tokenize(testCode)
+    addLog('Tokens:')
+    tokens.forEach((t, i) => {
+      if (t.type !== 'EOF') {
+        addLog(`  ${i}: { type: '${t.type}', value: ${typeof t.value === 'string' ? "'" + t.value + "'" : t.value} }`)
+      }
+    })
+    
+    addLog('')
+    addLog('=== 预期结果 ===')
+    addLog('应该生成 8 个 Token（不包括 EOF）')
+    addLog('如果 Token 数量正确，说明 Lexer 没问题')
+    addLog('问题可能在 Parser 中')
+  </script>
+</body>
+</html>
